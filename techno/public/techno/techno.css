@@ -1,0 +1,33 @@
+/*
+ * Techno Champs' motto under its badge in sign-up (ConnectingToCorp2,
+ * Orientation2). Webapp sets SN Corp's motto across the bottom of the 192px
+ * logo slot, left-aligned; the badge is centred, so is the motto.
+ */
+.snc-logo-wrapper .sui-text-header {
+  left: 0;
+  right: 0;
+  top: auto;
+  bottom: 0;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/*
+ * A player's own picture (techno/runtime/pfp.js), over the generated layers.
+ * Webapp's layers are always 72px, centred and raised 4px, since the robot art
+ * is drawn to be cropped by each portrait (40px in the HUD, 44px in result
+ * rows, 72px in the profile and sign-up). A player's picture instead fills
+ * whatever portrait holds it, whole. The extra `html` outranks webapp's
+ * `.sui-screen-portrait-image .pfp-viewer-layer` and
+ * `.sui-result-row-portrait img.pfp-viewer-layer` rules.
+ */
+html img.pfp-viewer-layer.techno-pfp-url {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  transform: none;
+  object-fit: cover;
+}

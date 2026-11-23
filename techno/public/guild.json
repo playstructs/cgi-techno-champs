@@ -1,0 +1,40 @@
+{
+  "guild": {
+    "schema_version": 1,
+    "id": "0-14",
+    "name": "Techno Champs",
+    "description": "Techno Champs of the Alpha Wars",
+    "tag": "TECHNO",
+    "logo": "https://techno.structs.zone/techno/img/techno-champs-logo.png",
+    "webapp": "techno.structs.zone",
+    "website": "",
+    "recruiting": {
+      "status": "open"
+    },
+    "socials": {
+      "bluesky": "",
+      "facebook": "",
+      "farcaster": "",
+      "instagram": "",
+      "twitch": "",
+      "x": "",
+      "youtube": "",
+      "discord_contact": "",
+      "discord_server": "",
+      "telegram_contact": "",
+      "telegram_channel": ""
+    },
+    "denom": {
+      "6": "bear",
+      "0": "ubear"
+    },
+    "services": {
+      "guild_api": "https://beta.playstructs.com/api/",
+      "reactor_api": "https://public.testnet.structs.network/",
+      "client_websocket": "wss://public.testnet.structs.network:26657/websocket",
+      "grass_nats_websocket": "wss://beta.playstructs.com:1443",
+      "matrix": "https://matrix.beta.playstructs.com",
+      "explorer": ""
+    }
+  }
+}
