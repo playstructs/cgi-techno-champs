@@ -9,7 +9,7 @@ there is no translation layer.
 | `patches.cjs` | `[exact upstream text, replacement]` pairs per upstream file: the guild connection, recovery, the telemetry name, players' own pictures, sign-up without a recovery key, Download Player, and Techno Champs in place of SN Corp in sign-up and the tutorial |
 | `runtime/` | Loaded before webapp's entry as `__techno`: `guild` (`guild.js`, the services of the guild the page plays through), `recovery` (`recovery.js`, moving a recovered player of another guild into it), `pfp` (`pfp.js`, every portrait showing the player's `pfp` URL over the generated one) and `account` (`account.js`, creating the account at sign-up without a recovery key section, and Download Player in place of Log Out) |
 | `public/` | Static files served over webapp's: `guild.json` (the guild's on-chain endpoint), `favicon.ico`, and `techno/` with `techno.css`, the sign-up badge, the guild logo and icons |
-| `page.cjs` | Renders webapp's Twig page (`templates/`) to `index.html`, adding Google Tag Manager (`GTM-58HZKHDD`), the icons and `techno.css` |
+| `page.cjs` | Renders webapp's Twig pages (`templates/`) to `index.html` and `sector-blitz/` (the public leaderboard), adding Google Tag Manager (`GTM-58HZKHDD`), the icons and `techno.css` |
 | `overlay.cjs`, `loader.cjs` | Apply `patches.cjs` to each source file webpack reads |
 | `check.cjs` | `npm run check` / `npm test`: stale or orphaned patches, SN Corp left on screen, guild.json against `GUILD_ID` |
 | `make_art.py` | Draws the badge, logo and icons |

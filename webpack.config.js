@@ -46,7 +46,7 @@ function walk(dir, base = dir, out = []) {
   return out;
 }
 
-/** Emits index.html and every static file, in dev (memory) as in a build. */
+/** Emits the pages and every static file, in dev (memory) as in a build. */
 class TechnoSitePlugin {
   apply(compiler) {
     const {Compilation, sources, WebpackError} = compiler.webpack;
@@ -56,7 +56,7 @@ class TechnoSitePlugin {
       }, () => {
         // Read fresh, so the dev server picks up page.cjs and patches.cjs edits.
         delete require.cache[require.resolve('./techno/page.cjs')];
-        const {renderPage} = require('./techno/page.cjs');
+        const {renderPage, renderLeaderboard} = require('./techno/page.cjs');
 
         for (const dir of PUBLIC_DIRS) {
           compilation.contextDependencies.add(dir);
@@ -72,15 +72,25 @@ class TechnoSitePlugin {
           }
         }
 
-        const files = compilation.entrypoints.get('index').getFiles().filter(file => file.endsWith('.js'));
-        if (files.length !== 1) {
-          throw new Error('Expected one JavaScript bundle for index');
-        }
-        const {html, stale, dependencies} = renderPage(files[0]);
-        dependencies.forEach(file => compilation.fileDependencies.add(file));
+        const bundle = name => {
+          const files = compilation.entrypoints.get(name).getFiles().filter(file => file.endsWith('.js'));
+          if (files.length !== 1) {
+            throw new Error(`Expected one JavaScript bundle for ${name}`);
+          }
+          return files[0];
+        };
+        const emitPages = ({pages, stale, dependencies}) => {
+          dependencies.forEach(file => compilation.fileDependencies.add(file));
+          stale.forEach(message => compilation.warnings.push(new WebpackError(`techno: ${message}`)));
+          for (const [file, html] of Object.entries(pages)) {
+            compilation.emitAsset(file, new sources.RawSource(html), {minimized: true});
+          }
+        };
         compilation.fileDependencies.add(path.join(__dirname, 'techno/patches.cjs'));
-        stale.forEach(message => compilation.warnings.push(new WebpackError(`techno: ${message}`)));
-        compilation.emitAsset('index.html', new sources.RawSource(html), {minimized: true});
+        const {html, ...game} = renderPage(bundle('index'));
+        emitPages({pages: {'index.html': html}, ...game});
+        // The public Sector Blitz leaderboard, at /sector-blitz and /sector-blitz/<sector>.
+        emitPages(renderLeaderboard(bundle('sectorBlitz')));
       });
     });
   }
@@ -108,8 +118,11 @@ module.exports = (env, argv) => {
   return {
     ...upstream,
     context: UPSTREAM_SRC,
-    // Only the game page: upstream's sectorBlitz page and test bundle are not part of this site.
-    entry: {index: [path.join(__dirname, 'techno/runtime/index.js'), path.join(UPSTREAM_SRC, 'js/index.js')]},
+    // The game and the public Sector Blitz leaderboard: upstream's test bundle is not part of this site.
+    entry: {
+      index: [path.join(__dirname, 'techno/runtime/index.js'), path.join(UPSTREAM_SRC, 'js/index.js')],
+      sectorBlitz: [path.join(__dirname, 'techno/runtime/index.js'), path.join(UPSTREAM_SRC, 'js/sector_blitz.js')],
+    },
     output: {
       ...upstream.output,
       path: path.resolve(__dirname, 'dist'),

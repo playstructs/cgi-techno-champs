@@ -120,7 +120,8 @@ a join minimum, or the chain can't be read (`techno/runtime/recovery.js`).
 npm run build        # dist/
 ```
 
-`dist/` is a static site: `index.html` (webapp's game page), the bundles in
+`dist/` is a static site: `index.html` (webapp's game page), `sector-blitz/`
+(webapp's public Sector Blitz leaderboard, and one page per sector), the bundles in
 `js/` and webapp's `css/`, `img/`, `lottie/` and fonts, plus `guild.json` and
 Techno Champs' art in `techno/`. It uses absolute paths, so serve it from the
 root of `techno.structs.zone`; it needs nothing else on that domain, but
