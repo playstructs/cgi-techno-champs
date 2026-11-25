@@ -13,6 +13,51 @@
 }
 
 /*
+ * Short screens. Webapp's logos are in a fixed 192px box: on the connecting
+ * screens (ConnectingToCorp1 and 2) positioned with nothing around it
+ * positioned, so it spills over the nav and the dialogue panel, outside the
+ * screen's own scrolling; in Orientation2 cropped. Here the screen holds it and
+ * it shrinks to fit; with no room for the motto, the badge stands alone, in the
+ * middle.
+ */
+.sui-page-body-screen-content:has(> .connecting-logo-swap-container),
+.full-screen-content-container:has(.snc-logo-wrapper) {
+  position: relative;
+  overflow: hidden;
+  container: techno-logo / size;
+}
+
+.full-screen-content-container:has(.snc-logo-wrapper) .common-layout-col {
+  padding-block: 0;
+}
+
+.connecting-logo-swap-container,
+.snc-logo-wrapper {
+  width: min(192px, 100cqh);
+  height: min(192px, 100cqh);
+}
+
+.connecting-logo-swap-container .glitch-logo {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 16.667%;
+}
+
+.snc-logo {
+  width: 100%;
+}
+
+@container techno-logo (max-height: 160px) {
+  .snc-logo {
+    transform: translateY(8%);
+  }
+
+  .snc-logo-wrapper .sui-text-header {
+    display: none;
+  }
+}
+
+/*
  * A player's own picture (techno/runtime/pfp.js), over the generated layers.
  * Webapp's layers are always 72px, centred and raised 4px, since the robot art
  * is drawn to be cropped by each portrait (40px in the HUD, 44px in result
